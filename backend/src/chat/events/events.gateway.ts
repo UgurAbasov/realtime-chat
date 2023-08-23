@@ -7,27 +7,6 @@ import { OnGatewayConnection } from "@nestjs/websockets";
 import { PrismaService } from 'src/prisma/prisma.service';
 
 
-type Data = {
-    room: string
-    name: string
-}
-
-type Data1 = {
-    message: string
-    email: string
-}
-
-const users = []
-
-const getUser = (user: string) => {
-    const arr = users.find((obj) => obj.id === user)
-    return arr
-}
-
-const addUser = (userObj: object) => {
-    users.push(userObj)
-}
-
 @WebSocketGateway()
 export class EventGateway implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit {
 

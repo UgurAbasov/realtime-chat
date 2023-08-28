@@ -49,7 +49,7 @@ export class ChatService {
             for (let i = 1; i <= usersArr.length; i++) {
                 const user = await this.prismaService.user.update({
                     where: {
-                        name: usersArr[i - 1]
+                        email: usersArr[i - 1]
                     },
                     data: {
                         roomId: serchingRoom.id,
@@ -82,7 +82,7 @@ export class ChatService {
             }
             const searchingUser = await this.prismaService.user.findUnique({
                 where: {
-                    name: createPrivate.userName
+                    email: createPrivate.userEmail
                 }
             })
             if (!searchingUser) {
@@ -90,15 +90,15 @@ export class ChatService {
             }
             const privated = await this.prismaService.private.create({
                 data: {
-                    name: createPrivate.userName,
+                    name: createPrivate.userEmail,
                     type: 'private'
                 }
             })
-            const array = [searchingUser.name, user.name]
+            const array = [searchingUser.email, user.email]
             for (let i = 1; i <= 2; i++) {
                 const userAdd = this.prismaService.user.update({
                     where: {
-                        name: array[i-1]
+                        email: array[i-1]
                     },
                     data:{
                         privateId: privated.id,

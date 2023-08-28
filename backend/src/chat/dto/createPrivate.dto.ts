@@ -1,4 +1,4 @@
 export interface CreatePrivateDto {
-    userName: string
+    userEmail: string
     refreshToken: string
 }

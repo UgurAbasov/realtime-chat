@@ -84,7 +84,7 @@ export class AuthService {
                   throw new HttpException('Email or password is not right', HttpStatus.BAD_REQUEST);
                   return;
                 }
-                const accessToken = this.jwtService.sign({sub: isUser.id, email: isUser.email }, {secret: process.env.ACCESS_SECRET, expiresIn: '15m'})
+              const accessToken = this.jwtService.sign({sub: isUser.id, email: isUser.email }, {secret: process.env.ACCESS_SECRET, expiresIn: '15m'})
               const refreshToken = this.jwtService.sign({sub: isUser.id, email: isUser.email }, {secret: process.env.REFRESH_SECRET, expiresIn: '30d'})
        
                 const refreshAdd = await this.prismaService.user.update({
@@ -150,6 +150,110 @@ export class AuthService {
           return getUser
         }
 
+        async googleRegister(req) {
+          try {
+          const profile = req.user
+          if (!profile) {
+            return 'No user from google';
+          }
+
+          const findUser = await this.prismaService.user.findUnique({
+            where: {
+              email: profile.emails[0].value
+            }
+          })
+
+          if(findUser){
+            throw new HttpException('This user already exist', HttpStatus.BAD_REQUEST);
+          }
+
+          const result = await this.prismaService.user.create({
+            data: {
+              email: profile.emails[0].value,
+              name: profile.displayName
+            }
+          })
 
 
+          const user = await this.prismaService.user.findUnique({
+            where: {
+              email: result.email
+            }
+          })
+
+          const accessToken = this.jwtService.sign({sub: user.id, email: user.email }, {secret: process.env.ACCESS_SECRET, expiresIn: '15m'})
+          const refreshToken = this.jwtService.sign({sub: user.id, email: user.email }, {secret: process.env.REFRESH_SECRET, expiresIn: '30d'})
+
+          const addRefresh = await this.prismaService.user.update({
+            where: {
+              email: user.email
+            },
+            data: {
+              refreshToken
+            }
+          })
+
+          return {
+            accessToken,
+            refreshToken,
+            register: 'success'
+          }
+        } catch(e) {
+          throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        }
+
+        async githubRegister(req) {
+          try {
+          const profile = req.user
+          if (!profile) {
+            return 'No user from github';
+          }
+          
+
+          const findUser = await this.prismaService.user.findUnique({
+            where: {
+              email: profile.emails[0].value
+            }
+          })
+
+          if(findUser){
+            throw new HttpException('This user already exist', HttpStatus.BAD_REQUEST);
+          }
+
+          const result = await this.prismaService.user.create({
+            data: {
+              email: profile.emails[0].value,
+              name: profile.displayName
+            }
+          })
+
+
+          const user = await this.prismaService.user.findUnique({
+            where: {
+              email: result.email
+            }
+          })
+
+          const accessToken = this.jwtService.sign({sub: user.id, email: user.email }, {secret: process.env.ACCESS_SECRET, expiresIn: '15m'})
+          const refreshToken = this.jwtService.sign({sub: user.id, email: user.email }, {secret: process.env.REFRESH_SECRET, expiresIn: '30d'})
+
+          const addRefresh = await this.prismaService.user.update({
+            where: {
+              email: user.email
+            },
+            data: {
+              refreshToken
+            }
+          })
+
+          return {
+            accessToken,
+            refreshToken,
+            register: 'success'
+          }
+        } catch(e) {
+          throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        } 
  }

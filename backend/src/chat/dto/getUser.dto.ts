@@ -1,6 +1,6 @@
 export interface GetUserDto {
     targetId: number
-    userName: string
+    userEmail: string
     message: string
     targetType: string
 }

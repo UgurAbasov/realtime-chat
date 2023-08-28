@@ -1,3 +1,5 @@
+import { GithubOAuthGuard } from './guards/github.guard';
+import { GoogleOAuthGuard } from './guards/google.guard';
 import { RtGuard } from './guards/rt.guard';
 import { Tokens } from './tokens.type';
 import { LoginDto } from './dto/login.dto';
@@ -6,7 +8,6 @@ import { Body, Controller, Post, UseGuards, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AtGuard } from './guards/at.guard';
 import { Request } from '@nestjs/common';
-
 
 @Controller('auth')
 export class AuthController {
@@ -30,6 +31,7 @@ export class AuthController {
     getUser(@Request() req) {
         return this.authService.getUser(req)
     }
+    
 
     @UseGuards(RtGuard)
     @Post('refresh')
@@ -37,5 +39,17 @@ export class AuthController {
         return this.authService.refreshToken(refreshTokenObj)
     }
 
-}
+   
+  @Get('google-redirect')
+  @UseGuards(GoogleOAuthGuard)
+  googleRegister(@Request() req) {
+    return this.authService.googleRegister(req);
+  }
+ 
+  @Get('github-redirect')
+  @UseGuards(GithubOAuthGuard)
+  githubRegister(@Request() req) {
+    return this.authService.githubRegister(req);
+  }
 
+}

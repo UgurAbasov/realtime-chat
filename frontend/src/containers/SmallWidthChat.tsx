@@ -1,13 +1,10 @@
-import { clickState } from "../../state/click"
-const ChatComponent = () => {
-    function handleClick() {
-        clickState.clickBol = true
-    }
+
+const SmallWidthChat = () => {
     return (
         <div className=" flex flex-col h-screen">
 
         <div className=" flex mt-5 ml-6">
-       <button onClick={handleClick}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" className=" w-10 h-8 mr-5 mt-auto mb-auto hover:bg-gray-300 rounded-lg cursor-pointer">
+       <button> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" className=" w-10 h-8 mr-5 mt-auto mb-auto hover:bg-gray-300 rounded-lg cursor-pointer">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
 </svg>
 </button>
@@ -139,4 +136,4 @@ const ChatComponent = () => {
     )
 
 } 
-export default ChatComponent
+export default SmallWidthChat

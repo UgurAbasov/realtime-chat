@@ -1,5 +1,32 @@
+import Link from "next/link"
+import { Suspense, useState } from "react"
 const SignUp = () => {
+    const [value, setValue] = useState({})
+
+    const onChange = (event: any) => {
+        setValue({
+            ...value,
+            [event.target.id]: event.target.value
+        })
+    }
+     const onClick = async (event: any) => {
+        const response = fetch('http://localhost:4000/auth/sign', {
+            method: "POST",
+            headers: {
+             "Content-Type": "application/json",
+             "Access-Control-Allow-Origin": "<origin>"
+            },
+            body: JSON.stringify(value)
+        })
+        const data = (await response).json()
+        data.then((result) => {
+        localStorage.setItem('accessToken', result.accessToken)
+        localStorage.setItem('refreshToken', result.refreshToken)
+        })
+     }
+
     return (
+        <Suspense fallback={<p>Loading</p>}>
         <div className=" flex flex-col items-center justify-center h-screen">
             <h1 className=" mb-[3px] text-center sm:text-[30px] text-xl   text text-[#444053]">Welcome</h1>
             <div className=" mb-[24px] mr-auto ml-auto  break-all sm:w-[230px] w-[188px]">
@@ -8,10 +35,11 @@ const SignUp = () => {
                 </p>
             </div>
             <div className=" mr-auto ml-auto w-[278px] sm:w-[350px]">
-                <input type="text" className=" mb-[17px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="username" />
-                <input type="email" className=" mb-[17px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="email" />
-                <input type="password" className=" mb-[28px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="password" />
-                <button type="button" className="w-[278px] sm:w-[350px] h-[42px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign Up</button>
+                <input type="text"  id="name" onChange={onChange} className=" mb-[17px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="username" />
+                <input type="email" id='email'onChange={onChange} className=" mb-[17px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="email" />
+                <input type="password" id="password" onChange={onChange} className=" mb-[4px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="password" />
+                <h1 className=" mb-[20px] text-gray-400">You already have an account <Link href='/auth/login' className=" text-black">Login</Link> ?</h1>
+                <button type="button" onClick={onClick} className="w-[278px] sm:w-[350px] h-[42px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign Up</button>
                 <button type="button" className="w-[278px] sm:w-[350px] text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                     <div className=" flex justify-center items-center w-full">
                         <svg className="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -30,6 +58,7 @@ const SignUp = () => {
                 </button>
             </div>
         </div>
+        </Suspense>
     )
 }
 

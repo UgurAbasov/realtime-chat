@@ -1,9 +1,12 @@
-import SearchComponentWithUsers from "@/components/SearchWithUsers"
-import SearchComponentWithoutUsers from "@/components/SearchWithoutUsers"
-import LargeWidthChat from "@/components/LargeWidthChat"
-import ChatComponent from "@/components/Chat"
+import SearchComponentWithUsers from "@/containers/SearchWithUsers"
+import SearchComponentWithoutUsers from "@/containers/SearchWithoutUsers"
+import LargeWidthChat from "@/containers/LargeWidthChat"
+import SmallWidthChat from "@/containers/SmallWidthChat"
 import { useState, useRef, useEffect } from "react" 
 import { clickState } from "../../../state/click"
+import Loading from "@/loading"
+import { Suspense } from "react"
+
 const ChatHome = () => {
     // const boolean = false
     //     if(boolean){
@@ -25,9 +28,11 @@ const ChatHome = () => {
     return (
         <>
 {width ? (
-  clickState.clickBol ? <ChatComponent /> : <SearchComponentWithUsers />
+  clickState.clickBol ? <SmallWidthChat /> : <SearchComponentWithUsers />
 ) : (
+    <Suspense fallback={<p>Loading</p>}>
   <LargeWidthChat />
+  </Suspense>
 )}        </>
     )
     

@@ -1,3 +1,6 @@
+import Link from "next/link"
+import MassageModel from "@/components/MassageModel"
+import UserPanel from "@/components/UsersPanel"
 const Login = () => {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
@@ -9,7 +12,8 @@ const Login = () => {
             </div>
             <div className=" mr-auto ml-auto w-[278px] sm:w-[350px]">
                 <input type="email" className=" mb-[17px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="email" />
-                <input type="password" className=" mb-[28px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="password" />
+                <input type="password" className=" mb-[4px] w-[278px] sm:w-[350px] h-[42px] border-none p-2 rounded-lg focus:outline-none focus:border-blue-700 focus:ring-blue-700" placeholder="password" />
+                <h1 className=" mb-[20px] text-gray-400">You don't have an account <Link href='/auth/sign' className=" text-black">Register</Link> ?</h1>
                 <button type="button" className="w-[278px] sm:w-[350px] h-[42px] text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign In</button>
                 <button type="button" className="w-[278px] sm:w-[350px] text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
                     <div className=" flex justify-center items-center w-full">

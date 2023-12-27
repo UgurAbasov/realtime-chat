@@ -10,10 +10,9 @@ import { Tokens } from './tokens.type';
 export class AuthService {
     constructor(private jwtService:JwtService,
         private prismaService: PrismaService) {}
-
         async sign(registerDto: RegisterDto): Promise<Tokens> {
             try {
- 
+
             const getUser = await this.prismaService.user.findUnique({
                 where: {
                   email: registerDto.email

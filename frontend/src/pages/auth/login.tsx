@@ -1,6 +1,4 @@
 import Link from "next/link"
-import MassageModel from "@/components/MassageModel"
-import UserPanel from "@/components/UsersPanel"
 const Login = () => {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
